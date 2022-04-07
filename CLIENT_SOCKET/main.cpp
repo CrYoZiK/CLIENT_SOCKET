@@ -1,6 +1,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #include <winsock2.h>
 #include <iostream>
+#include <cstring>
 
 #pragma warning(disable: 4996)
 
@@ -27,23 +28,20 @@ int main(int argc, char* argv[]) {
 	}
 
 	std::cout << "Connected!\n";
-	char msg[256];
-
+	//char msg[256] = "Hello. It`s my first network program!";
+	//send(Connection, msg, sizeof(msg), NULL);
+	char msg[256] ="Hello";
+	memset(msg, 0, 256);
 	
-	while (connect(Connection, (SOCKADDR*)&addr, sizeof(addr)) != 0)
+	while (strcmp(msg, "exit") != 0)
 	{
-		recv(Connection, msg, sizeof(msg), NULL);
-		if (msg[0] != '\0')
-		{
-			std::cout << msg << std::endl;
-			msg[0] = '\0';
-		}
-		std::cout << "connected" << std::endl;
-		//msg[0] = '\0';
-	}
 
-	//recv(Connection, msg, sizeof(msg), NULL);
-	//std::cout << msg << std::endl;
+		send(Connection, msg, sizeof(msg), NULL);
+		std::cout << "You: ";
+		std::cin.getline(msg, 256, 10);
+
+
+	}
 
 	system("pause");
 	return 0;
